@@ -16,6 +16,7 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import resources.TestDataBuild;
 import resources.Utils;
@@ -27,13 +28,14 @@ public class StepDefinition extends Utils{
 	Response response;
 	TestDataBuild data;
 	
-	@Given("Add Place Payload")
-	public void add_place_payload() throws FileNotFoundException {
+	@Given("Add Place Payload with {string} {string} {string}")
+	public void add_place_payload_with(String string, String string2, String string3) throws Exception {
 
-		RestAssured.baseURI = "https://rahulshettyacademy.com";
+
+		RestAssured.baseURI = getGlobalValue("baseURL");
 		data= new TestDataBuild();
 		resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		res = given().spec(requestSpec()).body(data.addPlacePayload());
+		res = given().spec(requestSpec()).body(data.addPlacePayload(string, string2, string3));
 
 	}
 
@@ -56,5 +58,6 @@ public class StepDefinition extends Utils{
 		assertEquals(json.get(key).toString(), value);
 
 	}
+
 
 }

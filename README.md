@@ -1,3 +1,3 @@
-# restAssuredCucumber
-restAssuredCucumber
+# restAssuredCucumberE2E
+restAssuredCucumberE2E
 
