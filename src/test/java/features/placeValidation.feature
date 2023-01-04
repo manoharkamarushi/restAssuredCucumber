@@ -21,18 +21,30 @@
 #    When I check for the <value> in step
 #    Then I verify the <status> in step
 #
-#    Examples: 
+#    Examples:
 #      | name  | value | status  |
 #      | name1 |     5 | success |
 #      | name2 |     7 | Fail    |
-
-@tag
+@PlaceAPI
 Feature: Validating place API`s
+
+  #   @ignore
+  #  Scenario: Verify new place being added sucessfully using addPlace API
+  #    Given Add Place Payload
+  #    When user calls "addPlaceAPI" with post http request
+  #    Then API call got sucess with statuscode as 200
+  #    And "status" in response body is "OK"
+  #    And "scope" in responseee body is "APP"
   
-  @tag1
-  Scenario: Verify new place being added sucessfully using addPlace API
-    Given Add Place Payload
-    When user calls "addPlaceAPI" with post http request
+  Scenario Outline: Verify new place being added sucessfully using addPlace API
+    Given Add Place Payload with "<Address>" "<Language>" "<name>"
+    When user calls "AddPlaceAPI" with "post" http request
     Then API call got sucess with statuscode as 200
     And "status" in response body is "OK"
     And "scope" in response body is "APP"
+    And verify created place_id maps to "<name>" using "getPlaceAPI"
+
+    Examples: 
+      | Address                 | Language  | name            |
+      | 29 side layout cohen 09 | French-IN | Frontline house |
+     # | AddressAAA              | Langggg   | Backline house  |
