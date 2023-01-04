@@ -21,7 +21,7 @@ import io.restassured.specification.ResponseSpecification;
 public class Utils {
 
 	public static RequestSpecification requestSpecification;
-	protected ResponseSpecification responseSpecification;
+	public static ResponseSpecification responseSpecification;
 
 	public RequestSpecification requestSpec() throws FileNotFoundException {
 
@@ -37,9 +37,11 @@ public class Utils {
 	}
 
 	public ResponseSpecification responseSpec() {
-
+		if (responseSpecification == null) {
 		return responseSpecification = new ResponseSpecBuilder().expectStatusCode(200)
 				.expectContentType(ContentType.JSON).build();
+		}
+		return responseSpecification;
 	}
 
 	public String getGlobalValue(String key) throws IOException {
