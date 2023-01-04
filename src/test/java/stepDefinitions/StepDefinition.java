@@ -15,6 +15,8 @@ import io.restassured.specification.ResponseSpecification;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.FileNotFoundException;
+
 import resources.TestDataBuild;
 import resources.Utils;
 
@@ -26,7 +28,7 @@ public class StepDefinition extends Utils{
 	TestDataBuild data;
 	
 	@Given("Add Place Payload")
-	public void add_place_payload() {
+	public void add_place_payload() throws FileNotFoundException {
 
 		RestAssured.baseURI = "https://rahulshettyacademy.com";
 		data= new TestDataBuild();
