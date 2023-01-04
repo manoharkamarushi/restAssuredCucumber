@@ -13,6 +13,8 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -22,15 +24,14 @@ public class Utils {
 	protected ResponseSpecification responseSpecification;
 
 	public RequestSpecification requestSpec() throws FileNotFoundException {
-		
-		if(requestSpecification==null) {
-		PrintStream printToFile = new PrintStream(new FileOutputStream("log.txt"));
 
-		return requestSpecification = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com")
-				.addQueryParam("key", "qaclick123").setContentType(ContentType.JSON)
-				.addFilter(RequestLoggingFilter.logRequestTo(printToFile))
-				.addFilter(ResponseLoggingFilter.logResponseTo(printToFile))
-				.build();
+		if (requestSpecification == null) {
+			PrintStream printToFile = new PrintStream(new FileOutputStream("log.txt"));
+
+			return requestSpecification = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com")
+					.addQueryParam("key", "qaclick123").setContentType(ContentType.JSON)
+					.addFilter(RequestLoggingFilter.logRequestTo(printToFile))
+					.addFilter(ResponseLoggingFilter.logResponseTo(printToFile)).build();
 		}
 		return requestSpecification;
 	}
@@ -40,14 +41,22 @@ public class Utils {
 		return responseSpecification = new ResponseSpecBuilder().expectStatusCode(200)
 				.expectContentType(ContentType.JSON).build();
 	}
-	
-	
+
 	public String getGlobalValue(String key) throws IOException {
-		
+
 		Properties prop = new Properties();
 		FileInputStream fileip = new FileInputStream(new File("./src/test/java/resources/global.properties"));
 		prop.load(fileip);
-		
+
 		return prop.getProperty(key);
+	}
+
+	public String getJsonPath(Response response,String keyValue) {
+		
+		String resp = response.asString();
+		JsonPath json = new JsonPath(resp);
+		
+		return json.get(keyValue).toString();
+		
 	}
 }

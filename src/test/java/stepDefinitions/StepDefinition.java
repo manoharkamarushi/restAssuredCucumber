@@ -1,6 +1,5 @@
 package stepDefinitions;
 
-
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -22,29 +21,36 @@ import resources.APIResources;
 import resources.TestDataBuild;
 import resources.Utils;
 
-public class StepDefinition extends Utils{
+public class StepDefinition extends Utils {
 
 	ResponseSpecification resspec;
 	RequestSpecification res;
 	Response response;
 	TestDataBuild data;
 	
-	@Given("Add Place Payload with {string} {string} {string}")
-	public void add_place_payload_with(String string, String string2, String string3) throws Exception {
 
+	@Given("Add Place Payload with {string} {string} {string}")
+	public void add_place_payload_with(String address, String lang, String name) throws Exception {
 
 		RestAssured.baseURI = getGlobalValue("baseURL");
-		data= new TestDataBuild();
+		data = new TestDataBuild();
 		resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		res = given().spec(requestSpec()).body(data.addPlacePayload(string, string2, string3));
+		
+		res = given().spec(requestSpec()).body(data.addPlacePayload(address, lang, name));
 
 	}
 
-	@When("user calls {string} with post http request")
-	public void user_calls_with_post_http_request(String string) {
-		
-		APIResources apiresource= APIResources.valueOf(string);
-		response = res.when().post(apiresource.getResource()).then().spec(resspec).extract().response();
+	@When("user calls {string} with {string} http request")
+	public void user_calls_with_post_http_request(String resource, String httpMethod) {
+
+		APIResources apiresource = APIResources.valueOf(resource);
+
+		if (httpMethod.equalsIgnoreCase("POST"))
+			response = res.when().post(apiresource.getResource()).then().spec(resspec).extract().response();
+		else if (httpMethod.equalsIgnoreCase("GET"))
+			response = res.when().get(apiresource.getResource()).then().spec(resspec).extract().response();
+		else
+			System.out.println("Unhandled methodType recieved");
 	}
 
 	@Then("API call got sucess with statuscode as {int}")
@@ -56,11 +62,17 @@ public class StepDefinition extends Utils{
 	@Then("{string} in response body is {string}")
 	public void in_response_body_is(String key, String value) {
 
-		String resp = response.asString();
-		JsonPath json = new JsonPath(resp);
-		assertEquals(json.get(key).toString(), value);
+		assertEquals(getJsonPath(response, key), value);
 
 	}
 
-
+	@Then("verify created place_id maps to {string} using {string}")
+	public void verify_created_place_id_maps_to_using(String expectedName, String apiResource) throws Exception {
+		
+		String place_id = getJsonPath(response, "place_id");
+		res = given().spec(requestSpec()).param("place_id", place_id);
+		user_calls_with_post_http_request(apiResource,"GET"); //resuing existing steps
+		String actualName = getJsonPath(response, "name");
+		assertEquals(expectedName, actualName);
+	}
 }
