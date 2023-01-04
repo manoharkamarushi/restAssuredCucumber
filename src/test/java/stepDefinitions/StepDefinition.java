@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import resources.APIResources;
 import resources.TestDataBuild;
 import resources.Utils;
 
@@ -41,7 +42,9 @@ public class StepDefinition extends Utils{
 
 	@When("user calls {string} with post http request")
 	public void user_calls_with_post_http_request(String string) {
-		response = res.when().post("/maps/api/place/add/json").then().spec(resspec).extract().response();
+		
+		APIResources apiresource= APIResources.valueOf(string);
+		response = res.when().post(apiresource.getResource()).then().spec(resspec).extract().response();
 	}
 
 	@Then("API call got sucess with statuscode as {int}")

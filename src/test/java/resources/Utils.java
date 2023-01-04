@@ -18,11 +18,12 @@ import io.restassured.specification.ResponseSpecification;
 
 public class Utils {
 
-	protected RequestSpecification requestSpecification;
+	public static RequestSpecification requestSpecification;
 	protected ResponseSpecification responseSpecification;
 
 	public RequestSpecification requestSpec() throws FileNotFoundException {
 		
+		if(requestSpecification==null) {
 		PrintStream printToFile = new PrintStream(new FileOutputStream("log.txt"));
 
 		return requestSpecification = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com")
@@ -30,7 +31,8 @@ public class Utils {
 				.addFilter(RequestLoggingFilter.logRequestTo(printToFile))
 				.addFilter(ResponseLoggingFilter.logResponseTo(printToFile))
 				.build();
-
+		}
+		return requestSpecification;
 	}
 
 	public ResponseSpecification responseSpec() {

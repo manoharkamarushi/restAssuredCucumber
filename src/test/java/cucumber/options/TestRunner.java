@@ -7,7 +7,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 //@CucumberOptions(features = "src/test/java/features", glue = { "stepDefinitions" },tags = "not @ignore")
-@CucumberOptions(features = "src/test/java/features", glue = { "stepDefinitions" })
+@CucumberOptions(features = "src/test/java/features", glue = { "stepDefinitions" }, tags="@AddPlaceAPI")
 public class TestRunner {
 
 	
