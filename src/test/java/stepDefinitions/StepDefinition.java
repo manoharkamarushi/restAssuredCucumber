@@ -23,20 +23,19 @@ import resources.Utils;
 
 public class StepDefinition extends Utils {
 
-	ResponseSpecification resspec;
-	RequestSpecification res;
+	RequestSpecification reqspec;
 	Response response;
-	TestDataBuild data;
+	TestDataBuild data = new TestDataBuild();
 	
+	public static String place_id; 
+	// in a particular run all testcases will refer to same static var
+	//it will not become NULL when 2nd scenario starts
 
 	@Given("Add Place Payload with {string} {string} {string}")
 	public void add_place_payload_with(String address, String lang, String name) throws Exception {
 
-		RestAssured.baseURI = getGlobalValue("baseURL");
-		data = new TestDataBuild();
-		resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		
-		res = given().spec(requestSpec()).body(data.addPlacePayload(address, lang, name));
+		RestAssured.baseURI = getGlobalValue("baseURL");			
+		reqspec = given().spec(requestSpec()).body(data.addPlacePayload(address, lang, name));
 
 	}
 
@@ -46,9 +45,9 @@ public class StepDefinition extends Utils {
 		APIResources apiresource = APIResources.valueOf(resource);
 
 		if (httpMethod.equalsIgnoreCase("POST"))
-			response = res.when().post(apiresource.getResource()).then().spec(resspec).extract().response();
+			response = reqspec.when().post(apiresource.getResource()).then().spec(responseSpec()).extract().response();
 		else if (httpMethod.equalsIgnoreCase("GET"))
-			response = res.when().get(apiresource.getResource()).then().spec(resspec).extract().response();
+			response = reqspec.when().get(apiresource.getResource()).then().spec(responseSpec()).extract().response();
 		else
 			System.out.println("Unhandled methodType recieved");
 	}
@@ -69,10 +68,19 @@ public class StepDefinition extends Utils {
 	@Then("verify created place_id maps to {string} using {string}")
 	public void verify_created_place_id_maps_to_using(String expectedName, String apiResource) throws Exception {
 		
-		String place_id = getJsonPath(response, "place_id");
-		res = given().spec(requestSpec()).param("place_id", place_id);
-		user_calls_with_post_http_request(apiResource,"GET"); //resuing existing steps
+		place_id = getJsonPath(response, "place_id");
+		reqspec = given().spec(requestSpec()).param("place_id", place_id);
+		
+		user_calls_with_post_http_request(apiResource,"GET"); //reusing existing steps
+		
 		String actualName = getJsonPath(response, "name");
 		assertEquals(expectedName, actualName);
+	}
+	
+	
+	@Given("DeletePlaceAPI payload")
+	public void delete_place_api_payload() throws Exception {
+	    
+		reqspec = given().spec(requestSpec()).body(data.deletePlacePayload(place_id));
 	}
 }
