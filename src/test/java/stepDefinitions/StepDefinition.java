@@ -26,8 +26,10 @@ public class StepDefinition extends Utils {
 	RequestSpecification reqspec;
 	Response response;
 	TestDataBuild data = new TestDataBuild();
-	static String place_id; // in a particular run all testcases will refer to same static var -->static.
-	//it will not become when 2nd scenario starts
+	
+	public static String place_id; 
+	// in a particular run all testcases will refer to same static var
+	//it will not become NULL when 2nd scenario starts
 
 	@Given("Add Place Payload with {string} {string} {string}")
 	public void add_place_payload_with(String address, String lang, String name) throws Exception {
@@ -68,7 +70,9 @@ public class StepDefinition extends Utils {
 		
 		place_id = getJsonPath(response, "place_id");
 		reqspec = given().spec(requestSpec()).param("place_id", place_id);
+		
 		user_calls_with_post_http_request(apiResource,"GET"); //reusing existing steps
+		
 		String actualName = getJsonPath(response, "name");
 		assertEquals(expectedName, actualName);
 	}

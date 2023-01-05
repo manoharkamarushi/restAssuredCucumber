@@ -2,7 +2,7 @@ package pojo;
 
 import java.util.List;
 
-public class AddPlace {
+public class AddPlace { //AddPlace pojo class
 
 	private int accuracy;
 	private String name;
@@ -12,6 +12,7 @@ public class AddPlace {
 	private String language;
 	private Location location;
 	private List<String> types;
+	
 	public int getAccuracy() {
 		return accuracy;
 	}

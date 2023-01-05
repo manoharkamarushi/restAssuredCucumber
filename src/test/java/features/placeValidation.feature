@@ -15,17 +15,7 @@
 #<> (placeholder)
 #""
 ## (Comments)
-# Sample Feature Definition Template
-#  Scenario Outline: Title of your scenario outline
-#    Given I want to write a step with <name>
-#    When I check for the <value> in step
-#    Then I verify the <status> in step
-#
-#    Examples:
-#      | name  | value | status  |
-#      | name1 |     5 | success |
-#      | name2 |     7 | Fail    |
-@PlaceAPI
+
 Feature: Validating place API`s
 
   #   @ignore
@@ -36,7 +26,7 @@ Feature: Validating place API`s
   #    And "status" in response body is "OK"
   #    And "scope" in responseee body is "APP"
   
-
+	@AddPlace
   Scenario Outline: Verify new place being added sucessfully using addPlace API
     Given Add Place Payload with "<Address>" "<Language>" "<name>"
     When user calls "AddPlaceAPI" with "post" http request
@@ -49,7 +39,7 @@ Feature: Validating place API`s
       | Address                 | Language  | name            |
       | 29 side layout cohen 09 | French-IN | Frontline house |
 
-
+	@DeletePlace
   Scenario: Verify delete palce api works sucessfully
     Given DeletePlaceAPI payload
     When user calls "deletePlaceAPI" with "post" http request

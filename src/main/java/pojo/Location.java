@@ -1,8 +1,9 @@
 package pojo;
 
-public class Location {
+public class Location { //Location pojo class
 private double lat;
 private double lng;
+
 public double getLat() {
 	return lat;
 }
