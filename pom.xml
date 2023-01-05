@@ -39,7 +39,7 @@
 								<param>**/*.json</param>
 							</jsonFiles>
 							<!-- optional, defaults to outputDirectory if not specified -->
-							<classificationDirectory>${project.build.directory}/classifications</classificationDirectory>
+							<classificationDirectory>${project.build.directory}/jsonReports</classificationDirectory>
 							<classificationFiles>
 								<!-- supports wildcard or name pattern -->
 								<param>sample.properties</param>

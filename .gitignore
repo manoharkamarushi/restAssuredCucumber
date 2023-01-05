@@ -54,7 +54,8 @@ test-output
 ##############################
 ## Maven
 ##############################
-target/
+/target/*
+!/target/jsonReports
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

@@ -80,7 +80,6 @@ public class StepDefinition extends Utils {
 	
 	@Given("DeletePlaceAPI payload")
 	public void delete_place_api_payload() throws Exception {
-	    
-		reqspec = given().spec(requestSpec()).body(data.deletePlacePayload(place_id));
+  		reqspec = given().spec(requestSpec()).body(data.deletePlacePayload(place_id));
 	}
 }

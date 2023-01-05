@@ -16,7 +16,7 @@
 #""
 ## (Comments)
 
-Feature: Validating place API`s
+
 
   #   @ignore
   #   Scenario: Verify new place being added sucessfully using addPlace API
@@ -26,6 +26,7 @@ Feature: Validating place API`s
   #    And "status" in response body is "OK"
   #    And "scope" in responseee body is "APP"
   
+Feature: Validating place API`s  
 	@AddPlace
   Scenario Outline: Verify new place being added sucessfully using addPlace API
     Given Add Place Payload with "<Address>" "<Language>" "<name>"
