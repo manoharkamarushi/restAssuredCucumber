@@ -78,7 +78,7 @@ public class TestRunner {
 ![image](https://user-images.githubusercontent.com/20392181/210774523-c7671262-bf49-4819-b823-23a936873ebd.png)
 
 
-#### Steps to clone execute the tests
+### Steps to clone execute the tests
 
 git clone https://github.com/manok584/restAssuredCucumber.git
 
