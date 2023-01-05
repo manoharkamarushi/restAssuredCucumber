@@ -79,8 +79,14 @@ public class TestRunner {
 
 
 #### Steps to clone execute the tests
+
 git clone https://github.com/manok584/restAssuredCucumber.git
+
 cd restAssuredCucumber
+
 mvn clean test -- to run all tests
+
 mvn test verify -- to run all tests and generate html report in target/cucumber-html-reports
+
 mvn test -Dcucumber.options="--tags @AddPlace" verify --to run only AddPlace API tests
+
