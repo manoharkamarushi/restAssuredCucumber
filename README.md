@@ -1,5 +1,5 @@
 # restAssured API Automation using Cucumber 
-#### This project is RestAssured based Cucumber framework to perform API testing. This project is useful as an example of implementing API Testing concepts with RestAssured and Java.
+#### This project is RestAssured based Cucumber framework to perform API testing, useful as an example of implementing API Testing concepts with RestAssured and Java.
 
 #### Implementations
 1. Smart step definition file with supported code
